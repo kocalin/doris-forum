@@ -1,0 +1,13 @@
+<h1>Editing post</h1>
+
+<% form_for (@post , :url =>forum_post_path(@post.forum_id,@post))  do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label "內容" %><br />
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+<%= link_to '回到話題', forum_path(@forum) %>

@@ -1,0 +1,12 @@
+<% div_for post do %>
+    <p>
+     <strong>
+	Posted <%= time_ago_in_words(post.created_at) %>
+	ago</strong><br/>
+	<%= h(post.body)%>
+    </p>
+    <p>
+    <%= link_to '修改', edit_forum_post_path(post.forum_id,post) %> |
+    <%= link_to '刪除', forum_post_path(post.forum_id,post), :method=> :delete, :confirm => "Are u sure?" %> |
+    </p>
+<% end %>

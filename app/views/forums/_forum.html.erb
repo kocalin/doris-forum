@@ -1,0 +1,4 @@
+<% div_for forum do %>
+    <h2><%= link_to_unless_current h(forum.title),forum %></h2>
+    <%= simple_format h(forum.body) %>
+<% end %>
