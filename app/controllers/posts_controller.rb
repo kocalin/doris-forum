@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
-  before_filter :find_forum
+  before_filter :find_forum , :only => [:create,:destroy]
+  before_filter :find_post, :only => [:show,:edit,:create,:destroy,:update]
+
   def index
     @posts = Post.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @posts }
@@ -10,8 +11,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @post }
@@ -28,11 +27,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
   end
 
   def create
-   @forum = Forum.find(params[:forum_id])
    @post = @forum.posts.create(params[:post])
 
     respond_to do |format|
@@ -42,7 +39,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
 
     respond_to do |format|
       if @post.update_attributes(params[:post])
@@ -57,16 +53,17 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @forum = Forum.find(params[:forum_id])
-    @post = Post.find(params[:id])
     @post.destroy
-
     respond_to do |format|
       format.html { redirect_to forum_path(@forum) }
       format.xml  { head :ok }
     end
   end
+ protected
     def find_forum
 	@forum = Forum.find(params[:forum_id])
+    end
+    def find_post
+	@post = Post.find(params[:id])
     end
 end

@@ -1,8 +1,10 @@
-<h1>Listing posts</h1>
+<h1>All Posts</h1>
 
 <table>
   <tr>
     <th>Body</th>
+    <th>排序-asc</th>
+    <th>排序-desc</th>
   </tr>
 
 <% @posts.each do |post| %>
@@ -13,5 +15,4 @@
 </table>
 
 <br />
-
 <%= link_to 'New post', new_post_path %>

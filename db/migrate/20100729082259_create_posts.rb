@@ -5,6 +5,10 @@ class CreatePosts < ActiveRecord::Migration
       t.text :body
       t.timestamps
     end
+    Forum.reset_column_information
+	Forum.find(:all).each do |p|
+	Forum.update_counters p.id, :posts_count => p.posts.length
+    end
   end
 
   def self.down

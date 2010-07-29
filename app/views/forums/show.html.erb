@@ -2,12 +2,16 @@
 <p>
 <%= link_to '修改', edit_forum_path(@forum) %> |
 <%= link_to '刪除', @forum, :method=> :delete, :confirm => "Are u sure?" %> |
-<%= link_to '看全部話題', forums_path %>
 </p>
 
-<h2>Posts</h2>
+<h2>討論文章</h2>
+<% if !@posts.empty? %>
+<%= link_to '最新', forum_path(@forum,:sort => "new") %>|
+<%= link_to '最舊', forum_path(@forum) %><br/>
+<% end %>
 <div id="posts">
-<%= render :partial => @forum.posts %>
+<%= render :partial => @posts%>
+<%= will_paginate @posts %>
 </div>
 
 <% remote_form_for [@forum, Post.new] do |f| %>
@@ -17,3 +21,6 @@
     </p>
     <p><%= f.submit "Add Post" %></p>
 <% end %>
+<p>
+<%= link_to '看全部話題', forums_path %>
+</p>

@@ -1,28 +1,25 @@
 class ForumsController < ApplicationController
-  # GET /forums
-  # GET /forums.xml
+  before_filter :find_forum , :only =>[:show,:edit,:update,:destroy]
   def index
     @forums = Forum.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @forums }
     end
   end
 
-  # GET /forums/1
-  # GET /forums/1.xml
   def show
-    @forum = Forum.find(params[:id])
-
+    @posts = @forum.posts
+    if params[:sort] == "new"
+	@posts = @posts.recent.paginate(:per_page => 2, :page => params[:page])
+    else
+	@posts = @posts.paginate(:per_page => 2, :page => params[:page])
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @forum }
     end
   end
-
-  # GET /forums/new
-  # GET /forums/new.xml
   def new
     @forum = Forum.new
 
@@ -32,13 +29,9 @@ class ForumsController < ApplicationController
     end
   end
 
-  # GET /forums/1/edit
   def edit
-    @forum = Forum.find(params[:id])
   end
 
-  # POST /forums
-  # POST /forums.xml
   def create
     @forum = Forum.new(params[:forum])
 
@@ -54,10 +47,7 @@ class ForumsController < ApplicationController
     end
   end
 
-  # PUT /forums/1
-  # PUT /forums/1.xml
   def update
-    @forum = Forum.find(params[:id])
 
     respond_to do |format|
       if @forum.update_attributes(params[:forum])
@@ -71,13 +61,14 @@ class ForumsController < ApplicationController
     end
   end
 
-  # DELETE /forums/1
-  # DELETE /forums/1.xml
   def destroy
-    @forum = Forum.find(params[:id])
     respond_to do |format|
       format.html { redirect_to(forums_url) }
       format.xml  { head :ok }
     end
+  end
+  protected
+  def find_forum
+    @forum = Forum.find(params[:id])
   end
 end
