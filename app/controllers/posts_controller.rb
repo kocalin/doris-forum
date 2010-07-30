@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_filter :find_forum , :only => [:create,:destroy]
-  before_filter :find_post, :only => [:show,:edit,:create,:destroy,:update]
+  before_filter :find_post, :only => [:show,:edit,:destroy,:update]
 
   def index
     @posts = Post.all
@@ -64,6 +64,6 @@ class PostsController < ApplicationController
 	@forum = Forum.find(params[:forum_id])
     end
     def find_post
-	@post = Post.find(params[:id])
+	@post = @forum.find(params[:id])
     end
 end

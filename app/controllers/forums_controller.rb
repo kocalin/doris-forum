@@ -1,4 +1,6 @@
 class ForumsController < ApplicationController
+  layout 'application'
+  before_filter :login_required
   before_filter :find_forum , :only =>[:show,:edit,:update,:destroy]
   def index
     @forums = Forum.all
@@ -10,10 +12,10 @@ class ForumsController < ApplicationController
 
   def show
     @posts = @forum.posts
-    if params[:sort] == "new"
-	@posts = @posts.recent.paginate(:per_page => 2, :page => params[:page])
-    else
+    if params[:sort] == "old"
 	@posts = @posts.paginate(:per_page => 2, :page => params[:page])
+    else
+	@posts = @posts.recent.paginate(:per_page => 2, :page => params[:page])
     end
     respond_to do |format|
       format.html # show.html.erb

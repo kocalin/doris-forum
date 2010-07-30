@@ -6,8 +6,9 @@
 
 <h2>討論文章</h2>
 <% if !@posts.empty? %>
-<%= link_to '最新', forum_path(@forum,:sort => "new") %>|
-<%= link_to '最舊', forum_path(@forum) %><br/>
+排序=>
+<%= link_to '最新', forum_path(@forum) %>|
+<%= link_to '最舊', forum_path(@forum,:sort => "old") %><br/>
 <% end %>
 <div id="posts">
 <%= render :partial => @posts%>
