@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :find_forum 
+  before_filter :find_forum
   before_filter :find_post, :only => [:edit,:destroy,:update]
 
   def index
@@ -47,7 +47,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    if user.is_admin 
     @post.destroy
     respond_to do |format|
       format.html { redirect_to forum_path(@forum) }
