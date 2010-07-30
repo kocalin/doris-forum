@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_filter :find_forum , :only => [:create,:destroy,:edit]
-  before_filter :find_post, :only => [:show,:edit,:destroy,:update]
+  before_filter :find_forum 
+  before_filter :find_post, :only => [:edit,:destroy,:update]
 
   def index
     @posts = Post.all
@@ -9,14 +9,6 @@ class PostsController < ApplicationController
       format.xml  { render :xml => @posts }
     end
   end
-
-  def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @post }
-    end
-  end
-
   def new
     @post = Post.new
 
@@ -55,6 +47,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    if user.is_admin 
     @post.destroy
     respond_to do |format|
       format.html { redirect_to forum_path(@forum) }
