@@ -12,6 +12,7 @@ class ForumsController < ApplicationController
 
   def show
     @posts = @forum.posts
+    @post = Post.new
     if params[:sort] == "old"
 	@posts = @posts.paginate(:per_page => 2, :page => params[:page])
     else
