@@ -1,6 +1,6 @@
 class ForumsController < ApplicationController
   layout 'application'
-  before_filter :login_required
+  before_filter :login_required, :only =>[:new,:create,:update,:destory]
   before_filter :find_forum , :only =>[:show,:edit,:update,:destroy]
   def index
     @forums = Forum.all

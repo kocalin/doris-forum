@@ -5,8 +5,10 @@
 	ago</strong><br/>
 	<%= h(post.body)%>
     </p>
+    <% if current_user.id == post.user_id %>
     <p>
     <%= link_to '修改', edit_forum_post_path(post.forum_id,post) %> |
     <%= link_to '刪除', forum_post_path(post.forum_id,post), :method=> :delete, :confirm => "Are u sure?" %> |
     </p>
+    <% end %>
 <% end %>

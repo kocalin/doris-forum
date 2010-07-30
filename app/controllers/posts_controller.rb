@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :find_forum , :only => [:create,:destroy]
+  before_filter :find_forum , :only => [:create,:destroy,:edit]
   before_filter :find_post, :only => [:show,:edit,:destroy,:update]
 
   def index
@@ -30,7 +30,9 @@ class PostsController < ApplicationController
   end
 
   def create
-   @post = @forum.posts.create(params[:post])
+   @post = @forum.posts.build(params[:post])
+   @post.user_id = current_user
+   @post.save
 
     respond_to do |format|
 	format.html{redirect_to @forum}
@@ -64,6 +66,6 @@ class PostsController < ApplicationController
 	@forum = Forum.find(params[:forum_id])
     end
     def find_post
-	@post = @forum.find(params[:id])
+	@post = @forum.posts.find(params[:id])
     end
 end

@@ -18,8 +18,8 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default('/')
       flash[:notice] = "Logged in successfully"
+      redirect_back_or_default('/forums')
     else
       note_failed_signin
       @login       = params[:login]
@@ -30,8 +30,10 @@ class SessionsController < ApplicationController
 
   def destroy
     logout_killing_session!
-    flash[:notice] = "You have been logged out."
-    redirect_back_or_default('/')
+    flash[:notice] = "您已成功登出"
+
+    #session[:return_to] = params[:return_to] || request.env["HTTP_REFERER"] unless session[:return_to]
+    redirect_back_or_default('/forums')
   end
 
 protected
