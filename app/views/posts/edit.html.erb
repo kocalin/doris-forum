@@ -1,11 +1,15 @@
 <h1>Editing post</h1>
 
-<% form_for (@post , :url =>forum_post_path(@post.forum_id,@post))  do |f| %>
+<% form_for @post , :url =>forum_post_path(@post.forum_id,@post) ,:html=>{:multipart => true} do |f| %>
   <%= f.error_messages %>
   <p>
     <%= f.label "內容" %><br />
     <%= f.text_area :body %>
   </p>
+	  <% f.object.build_mugshot unless f.object.mugshot %>
+          <% f.fields_for :mugshot do |mugshot_f| %>
+		<%= mugshot_f.file_field(:uploaded_data) %>
+	  <% end %>
   <p>
     <%= f.submit 'Update' %>
   </p>

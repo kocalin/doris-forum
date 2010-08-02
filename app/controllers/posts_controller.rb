@@ -34,16 +34,16 @@ class PostsController < ApplicationController
 
   def update
     if  @post.user_id == current_user.id
-        respond_to do |format|
-	if @post.update_attributes(params[:post])
-      	  flash[:notice] = 'Post was successfully updated.'
-      	  format.html { redirect_to forum_path(@post.forum_id) }
-      	  format.xml  { head :ok }
-      	else
-      	  format.html { render :action => "edit" }
-      	  format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
-      	end
+        if @post.mugshot and params[:post][:mugshot_attributes]
+	    @post.mugshot.destroy
+	    @post.reload
 	end
+	if @post.update_attributes(params[:post])
+           flash[:notice] = 'Post was successfully updated.'
+           redirect_to forum_path(@post.forum_id)
+        else
+           render :action => "edit"
+        end
     else
 	flash[:notice] = 'it`s not your post.'
 	redirect_to forum_path(@post.forum_id)
