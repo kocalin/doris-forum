@@ -33,7 +33,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    if  @post.user_id == current_user
+    if  @post.user_id == current_user.id
         respond_to do |format|
 	if @post.update_attributes(params[:post])
       	  flash[:notice] = 'Post was successfully updated.'
@@ -45,15 +45,13 @@ class PostsController < ApplicationController
       	end
 	end
     else
-        respond_to do |format|
-	    flash[:notice] = 'it`s not your post.'
-	    format.html { redirect_to forum_path(@post.forum_id) }
-	end
+	flash[:notice] = 'it`s not your post.'
+	redirect_to forum_path(@post.forum_id)
     end
   end
 
   def destroy
-    if  @post.user_id == current_user
+    if  @post.user_id == current_user.id
 	@post.destroy
     else
         flash[:notice] = 'it`s not your post.'

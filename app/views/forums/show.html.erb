@@ -1,3 +1,8 @@
+<% if flash[:notice] %>
+<p style="color: green">
+ <%= flash[:notice] %>
+</p>
+<% end %>
 <%= render :partial => @forum %>
 <p>
 <%= link_to '修改', edit_forum_path(@forum) %> |
