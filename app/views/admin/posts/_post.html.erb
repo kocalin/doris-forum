@@ -1,0 +1,17 @@
+<% div_for post do %>
+    <p>
+     <strong>
+	Posted <%= time_ago_in_words(post.created_at) %>
+	ago</strong><br/>
+	<%= h(post.body)%>
+    </p>
+        <% if post.mugshot %>
+	    <%= image_tag(post.mugshot.public_filename) %>
+	<% end %>
+    <% if current_user.is_admin == true %>
+	 <p>
+   	 <%= link_to '修改', edit_admin_forum_instance_post_path(post.forum_id,post) %> |
+   	 <%= link_to '刪除', admin_forum_instance_post_path(post.forum_id,post), :method=> :delete, :confirm => "Are u sure?" %> |
+   	 </p>
+    <% end %>
+<% end %>

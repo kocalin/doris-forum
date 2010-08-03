@@ -1,0 +1,37 @@
+<% if flash[:notice] %>
+<p style="color: green">
+ <%= flash[:notice] %>
+</p>
+<% end %>
+<%= render :partial => @forum %>
+<p>
+<%= link_to '修改', edit_admin_forum_instance_path(@forum) %> |
+<%= link_to '刪除', admin_forum_instance_path(@forum), :method=> :delete, :confirm => "Are u sure?" %> |
+</p>
+
+<h2>討論文章</h2>
+<% if !@posts.empty? %>
+排序=>
+<%= link_to '觀看最新', admin_forum_instance_path(@forum) %>|
+<%= link_to '觀看最舊', admin_forum_instance_path(@forum,:sort => "old") %><br/>
+<% end %>
+<div id="posts">
+<%= render :partial => @posts%>
+    <%= will_paginate @posts %>
+    </div>
+
+    <% form_for @post,:url => admin_forum_instance_posts_path(@forum),:html => { :multipart => true } do |f| %>
+	<p>
+	<%= f.label :body, "New post" %><br/>
+	<%= f.text_area :body %>
+	</p>
+	<h1>Most Wanted</h1>
+	  <% f.object.build_mugshot unless f.object.mugshot %>
+          <% f.fields_for :mugshot do |mugshot_f| %>
+		<%= mugshot_f.file_field(:uploaded_data) %>
+	  <% end %>
+	<p><%= f.submit "Add Post" %></p>
+<% end %>
+<p>
+<%= link_to '看全部話題', admin_forums_path %>
+</p>
