@@ -22,14 +22,14 @@ class PostsController < ApplicationController
   end
 
   def create
+   if logged_in?
    @post = @forum.posts.build(params[:post])
    @post.user_id = current_user
    @post.save
-
-    respond_to do |format|
-	format.html{redirect_to @forum}
-	format.js
-    end
+   else
+    flash[:notice] = 'You must be logged in.'
+   end
+   redirect_to @forum
   end
 
   def update

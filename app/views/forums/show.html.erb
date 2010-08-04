@@ -19,7 +19,7 @@
 <%= render :partial => @posts%>
     <%= will_paginate @posts %>
     </div>
-
+    <% if logged_in? %>
     <% form_for @post,:url => forum_posts_path(@forum),:html => { :multipart => true } do |f| %>
 	<p>
 	<%= f.label :body, "New post" %><br/>
@@ -31,7 +31,8 @@
 		<%= mugshot_f.file_field(:uploaded_data) %>
 	  <% end %>
 	<p><%= f.submit "Add Post" %></p>
-<% end %>
+    <% end %>
+    <% end %>
 <p>
 <%= link_to '看全部話題', forums_path %>
 </p>

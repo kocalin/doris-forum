@@ -8,7 +8,7 @@
         <% if post.mugshot %>
 	    <%= image_tag(post.mugshot.public_filename) %>
 	<% end %>
-    <% if current_user.id == post.user_id %>
+    <% if post.is_post_user?(current_user) %>
 	 <p>
    	 <%= link_to '修改', edit_forum_post_path(post.forum_id,post) %> |
    	 <%= link_to '刪除', forum_post_path(post.forum_id,post), :method=> :delete, :confirm => "Are u sure?" %> |
